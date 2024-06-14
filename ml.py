@@ -13,9 +13,11 @@ import matplotlib.pyplot as plt
 import requests
 from ml_dependency import custom_objects
 
+print('before load')
 model = keras.models.load_model('./model_per_class.h5',
                                 custom_objects=custom_objects, compile=False)
 
+print('after load')
 # DEFINE seg-areas
 SEGMENT_CLASSES = {
     0 : 'NOT tumor',
