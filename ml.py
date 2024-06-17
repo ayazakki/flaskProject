@@ -4,12 +4,8 @@ import nibabel as nib
 import cv2
 import tensorflow as tf
 from tensorflow import keras
-
-import matplotlib
-matplotlib.use('Agg')  # Set matplotlib backend to Agg
-
 import matplotlib.pyplot as plt
-#from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import requests
 from ml_dependency import custom_objects
 
