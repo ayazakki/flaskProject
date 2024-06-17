@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+#from flask_ngrok import run_with_ngrok
 from keras.models import load_model
 import numpy as np
 import nibabel as nib
@@ -14,6 +15,7 @@ import random
 import os
 
 app = Flask(__name__)
+#run_with_ngrok(app)
 
 
 # Configuration       
@@ -71,7 +73,8 @@ def uncompress_and_predict():
     
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    #app.run(port=5000, debug=True)
+    app.run(port=5000)
 
     
     
