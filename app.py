@@ -10,6 +10,7 @@ from ml import showPredicts
 import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
+from ar import handleAR
 import string    
 import random
 import os
@@ -62,12 +63,16 @@ def uncompress_and_predict():
             result.append({"secure_url": upload_result["secure_url"], "public_id": upload_result["public_id"]})
             if os.path.exists(f'./results/{result_filename}_{i}.png'):
                 os.remove(f'./results/{result_filename}_{i}.png')
+
+        arResult = handleAR(file_urls[0], result_filename)
         
 ########
+        # remove the three nii files that were tmp stored
         for i in range(3):
             if os.path.exists(f"./tmp/{file_urls[i]['public_id']}"):
                 os.remove(f"./tmp/{file_urls[i]['public_id']}")
-        return jsonify({"results":result})
+
+        return jsonify({"results":result, "brainGLB": arResult["brainGLB"], "tumorGLB": arResult["tumorGLB"]})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
