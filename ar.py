@@ -3,11 +3,14 @@ from ml import download_nifti
 from niiSeg import niiSegCode
 from niiToGLB import niiToGLB
 import nibabel as nib
+import cloudinary
+import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
+import time
 
 def handleAR(flairObj, filename):
-    # download flair nii file from cloudinary so we can load it
-    brainFile = download_nifti(flairObj["public_id"], flairObj["secure_url"])
+    # load brain nii file
+    brainFile = f'./tmp/{flairObj["public_id"]}'
     brainNII = nib.load(brainFile)
     brainData = brainNII.get_fdata()
 
@@ -36,13 +39,11 @@ def handleAR(flairObj, filename):
     # added the response of both brainGLB and tumorGLB to result object to return it
     result = {
         "brainGLB": {"secure_url": brainGLB["secure_url"], "public_id": brainGLB["public_id"]},
-        "tumorGLB": {"secure_url": tumorGLB["secure_url"], "public_id": tumorGLB["public_id"]}
+        "tumorGLB": {"secure_url": tumorGLB["secure_url"], "public_id": tumorGLB["public_id"]},
+        "paths":paths
     }
 
-    # we remove the three files that we have created here (tmp tumor nii file, and the two glb results for brain and tumor)
-    for i in range(3):
-        if os.path.exists(paths[i]):
-            os.remove(paths[i])
+    
 
     # return response
     return result

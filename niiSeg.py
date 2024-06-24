@@ -1,7 +1,7 @@
 import nibabel as nib
 
 def niiSegCode(brainNII, brainData, filePath):
-    optimal_threshold = 500
+    optimal_threshold = 350
     tumor_mask = (brainData > optimal_threshold)
 
     tumor_img = nib.Nifti1Image(tumor_mask.astype(float), affine=brainNII.affine)

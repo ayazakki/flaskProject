@@ -46,7 +46,6 @@ def fetch_files_from_urls(urls):
 @app.route('/uncompress-and-predict', methods=['POST'])
 def uncompress_and_predict():
     try:
-        # Get the URLs from the request
         file_urls = request.json.get('file_urls')
         print(file_urls)
         print("this block of URLS")
@@ -66,8 +65,14 @@ def uncompress_and_predict():
 
         arResult = handleAR(file_urls[0], result_filename)
         
-########
-        # remove the three nii files that were tmp stored
+        # we remove the three files that we have created here (tmp tumor nii file, and the two glb results for brain and tumor)
+        for path in arResult["paths"]:
+            if os.path.exists(path):
+                try:
+                    os.remove(path)
+                except PermissionError:
+                    print(f"Could not remove {path} because it is being used by another process.")
+
         for i in range(3):
             if os.path.exists(f"./tmp/{file_urls[i]['public_id']}"):
                 os.remove(f"./tmp/{file_urls[i]['public_id']}")
@@ -78,8 +83,8 @@ def uncompress_and_predict():
     
 
 if __name__ == '__main__':
-    #app.run(port=5000, debug=True)
-    app.run(port=5000)
+    app.run(port=5000, debug=True)
+    #app.run(port=5000)
 
     
     
